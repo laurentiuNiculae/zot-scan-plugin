@@ -1,0 +1,1 @@
+# zot-scan-plugin
