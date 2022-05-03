@@ -14,8 +14,8 @@ type ScanServer struct {
 }
 
 func (ss ScanServer) Scan(ctx context.Context, request *scan.ScanRequest) (*scan.ScanResponse, error) {
-	image := request.GetImageName()
-	addr := request.GetServerAdress()
+	image := request.GetImage()
+	addr := request.GetRegistry().Url
 
 	// this would be simmilar to calling: > trivy image [flags] localhost:8080/image
 	// the library will know how to use the zot oci api and scan the image required.
