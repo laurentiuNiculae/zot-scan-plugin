@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"path"
 
-	"zotregistry.io/zot/pkg/extensions/search/cve/convert"
 	"zotregistry.io/zot/pkg/plugins/scan"
 )
 
@@ -22,6 +21,8 @@ func (ss ScanServer) Scan(ctx context.Context, request *scan.ScanRequest) (*scan
 	trivyCtx := NewTrivyContextArgs("/tmp/zot/trivy-cash", addr, image)
 
 	fmt.Printf("Scaning for image: %v\n", path.Join(addr, image))
-	res, err := ScanImage(trivyCtx.Ctx)
-	return convert.ToRPCScanResponse(res.Results, res.Metadata.OS), err
+	report, err := ScanImage(trivyCtx.Ctx)
+	return &scan.ScanResponse{
+		Report: ConvertToRPCScanReport(report),
+	}, err
 }
